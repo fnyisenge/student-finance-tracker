@@ -1,19 +1,13 @@
-export function validateDescription(value) {
-  return /^\S(?:.*\S)?$/.test(value.trim());
-}
+export const validateRecord = (record) => {
+    const descRegex = /^\S(?:.*\S)?$/;
+    const amountRegex = /^(0|[1-9]\d*)(\.\d{1,2})?$/;
+    const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+    const categoryRegex = /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/;
 
-export function validateAmount(value) {
-  return /^(0|[1-9]\d*)(\.\d{1,2})?$/.test(value);
-}
+    if (!descRegex.test(record.description)) return { valid: false, message: 'Invalid description' };
+    if (!amountRegex.test(record.amount)) return { valid: false, message: 'Invalid amount' };
+    if (!dateRegex.test(record.date)) return { valid: false, message: 'Invalid date' };
+    if (!categoryRegex.test(record.category)) return { valid: false, message: 'Invalid category' };
 
-export function validateCategory(value) {
-  return /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/.test(value.trim());
-}
-
-export function validateDate(value) {
-  return /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(value);
-}
-
-export function validateDuplicateWords(value) {
-  return !/\b(\w+)\s+\1\b/i.test(value);
-}
+    return { valid: true };
+};

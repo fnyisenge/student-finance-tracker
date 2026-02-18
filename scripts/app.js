@@ -1,113 +1,91 @@
-import { records, loadState, saveState, addRecord, updateRecord, deleteRecord, KEY } from './state.js';
+import { load, save, KEY } from './storage.js';
+import { renderRecords, renderStats } from './ui.js';
+import { validateRecord } from './validators.js';
 
-loadState();
-renderRecords();
-renderStats();
+let records = load();
+if (records.length === 0) {
+    records = [
+        { id: 'txn_1', description: 'Lunch', amount: 12.50, category: 'Food', date: '2025-09-25', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+        { id: 'txn_2', description: 'Books', amount: 89.99, category: 'Books', date: '2025-09-23', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+        { id: 'txn_3', description: 'Bus Pass', amount: 45.00, category: 'Transport', date: '2025-09-20', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+        { id: 'txn_4', description: 'Coffee', amount: 8.75, category: 'Entertainment', date: '2025-09-28', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+        { id: 'txn_5', description: 'Stationery', amount: 15.30, category: 'Other', date: '2025-09-26', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }
+    ];
+    save(records);
+}
 
-const form = document.getElementById('record-form');
-const recordsContainer = document.getElementById('records-container');
-const searchInput = document.createElement('input');
-searchInput.placeholder = 'Search regex';
-recordsContainer.before(searchInput);
-const status = document.getElementById('status');
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('record-form');
+    const status = document.getElementById('status');
+    const searchInput = document.getElementById('searchInput');
 
-form.addEventListener('submit', e => {
-    e.preventDefault();
-    const id = 'rec_' + Date.now();
-    const description = form.description.value.trim();
-    const amount = parseFloat(form.amount.value);
-    const category = form.category.value.trim();
-    const date = form.date.value;
+    const updateUI = () => {
+        renderRecords(records, editRecord, deleteRecord);
+        renderStats(records);
+    };
 
-    if (!description || !amount || !category || !date) return;
+    const editRecord = (idx) => {
+        const r = records[idx];
+        form.description.value = r.description;
+        form.amount.value = r.amount;
+        form.category.value = r.category;
+        form.date.value = r.date;
+        form.dataset.editIndex = idx;
+    };
 
-    addRecord({
-        id, description, amount, category, date,
-        createdAt: new Date(), updatedAt: new Date()
-    });
-
-    form.reset();
-    renderRecords();
-    renderStats();
-    status.textContent = 'Record added';
-});
-
-searchInput.addEventListener('input', () => {
-    const pattern = searchInput.value;
-    let re;
-    try {
-        re = new RegExp(pattern, 'i');
-    } catch {
-        re = null;
-    }
-    renderRecords(re);
-});
-
-function renderRecords(regex = null) {
-    recordsContainer.innerHTML = '';
-    records.forEach(r => {
-        let description = r.description;
-        if (regex) {
-            description = description.replace(regex, m => `<mark>${m}</mark>`);
+    const deleteRecord = (idx) => {
+        if (confirm('Are you sure you want to delete this record?')) {
+            const removed = records.splice(idx, 1)[0];
+            save(records);
+            updateUI();
+            status.textContent = `Record deleted: ${removed.description}`;
         }
-        const div = document.createElement('div');
-        div.innerHTML = `
-            <strong>${description}</strong> |
-            ${r.amount.toFixed(2)} |
-            ${r.category} |
-            ${r.date}
-            <button class="edit">Edit</button>
-            <button class="delete">Delete</button>
-        `;
-        const editBtn = div.querySelector('.edit');
-        const deleteBtn = div.querySelector('.delete');
+    };
 
-        editBtn.addEventListener('click', () => {
-            form.description.value = r.description;
-            form.amount.value = r.amount;
-            form.category.value = r.category;
-            form.date.value = r.date;
-            deleteRecord(r.id);
-            renderRecords();
-            renderStats();
-        });
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newRecord = {
+            id: 'txn_' + (records.length + 1),
+            description: form.description.value.trim(),
+            amount: parseFloat(form.amount.value),
+            category: form.category.value.trim(),
+            date: form.date.value,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
 
-        deleteBtn.addEventListener('click', () => {
-            if (confirm('Delete this record?')) {
-                deleteRecord(r.id);
-                renderRecords();
-                renderStats();
-            }
-        });
+        const validation = validateRecord(newRecord);
+        if (!validation.valid) {
+            status.textContent = validation.message;
+            return;
+        }
 
-        recordsContainer.appendChild(div);
+        if (form.dataset.editIndex !== undefined) {
+            const idx = form.dataset.editIndex;
+            records[idx] = { ...records[idx], ...newRecord, updatedAt: new Date().toISOString() };
+            delete form.dataset.editIndex;
+            status.textContent = `Record updated: ${newRecord.description}`;
+        } else {
+            records.push(newRecord);
+            status.textContent = `Record added: ${newRecord.description}`;
+        }
+
+        save(records);
+        form.reset();
+        updateUI();
     });
-}
 
-function renderStats() {
-    const statsDiv = document.getElementById('stats');
-    const total = records.reduce((sum, r) => sum + r.amount, 0);
-    const categoryCounts = {};
-    records.forEach(r => categoryCounts[r.category] = (categoryCounts[r.category] || 0) + 1);
-    const topCategory = Object.keys(categoryCounts).reduce((a, b) => categoryCounts[a] > categoryCounts[b] ? a : b, '');
+    searchInput.addEventListener('input', () => {
+        const pattern = searchInput.value;
+        let re = null;
+        try {
+            re = new RegExp(pattern, 'i');
+        } catch {
+            return;
+        }
+        const filtered = records.filter(r => re.test(r.description) || re.test(r.category));
+        renderRecords(filtered, editRecord, deleteRecord);
+    });
 
-    let remaining = budgetCap - total;
-    let message = budgetCap ? 
-        (remaining >= 0 ? `Remaining budget: ${remaining.toFixed(2)}` : `Over budget by ${Math.abs(remaining).toFixed(2)}`) 
-        : '';
-
-    statsDiv.innerHTML = `
-        Total Records: ${records.length} <br>
-        Total Amount: ${total.toFixed(2)} <br>
-        Top Category: ${topCategory || '-'} <br>
-        ${message}
-    `;
-    if (budgetCap) {
-        status.textContent = message;
-    }
-}
-
-document.getElementById('budgetCap')?.addEventListener('input', e => {
-    budgetCap = parseFloat(e.target.value) || 0;
-    renderStats();
+    updateUI();
 });

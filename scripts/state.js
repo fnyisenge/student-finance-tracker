@@ -1,32 +1,18 @@
-export const KEY = 'finance:data';
+import { load, save } from './storage.js';
 
-export let records = [];
+export let records = load();
 
-export let budgetCap = 0;
-
-export function loadState() {
-    const saved = localStorage.getItem(KEY);
-    records = saved ? JSON.parse(saved) : [];
-}
-
-export function saveState() {
-    localStorage.setItem(KEY, JSON.stringify(records));
-}
-
-export function addRecord(record) {
+export const addRecord = (record) => {
     records.push(record);
-    saveState();
-}
+    save(records);
+};
 
-export function updateRecord(id, updated) {
-    const idx = records.findIndex(r => r.id === id);
-    if (idx > -1) {
-        records[idx] = { ...records[idx], ...updated, updatedAt: new Date() };
-        saveState();
-    }
-}
+export const updateRecord = (id, updated) => {
+    records = records.map(r => r.id === id ? { ...r, ...updated } : r);
+    save(records);
+};
 
-export function deleteRecord(id) {
+export const deleteRecord = (id) => {
     records = records.filter(r => r.id !== id);
-    saveState();
-}
+    save(records);
+};

@@ -1,31 +1,133 @@
+/* Reset & base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-font-family: Arial;
-margin: 0;
-padding: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background: #f9f9f9;
+    color: #222;
 }
+
+a {
+    color: #0077cc;
+    text-decoration: none;
+}
+
+a:focus {
+    outline: 2px solid #ff6600;
+    outline-offset: 2px;
+}
+
 header {
-background: black;
-color: white;
-padding: 10px;
+    background: #0077cc;
+    color: #fff;
+    padding: 1rem;
 }
-nav button {
-margin: 5px;
-padding: 10px;
-cursor: pointer;
+
+header h1 {
+    margin-bottom: 0.5rem;
 }
-table {
-width: 100%;
-border-collapse: collapse;
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
-td, th {
-border: 1px solid gray;
-padding: 8px;
+
+nav li {
 }
+
+nav a {
+    background: #005fa3;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+nav a:hover, nav a:focus {
+    background: #004a80;
+}
+
+main {
+    padding: 1rem;
+}
+
+section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    margin-top: 1rem;
+}
+
+form input, form button {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    background: #0077cc;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.2s;
+}
+
+form button:hover, form button:focus {
+    background: #005fa3;
+}
+
+#records-container div {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#records-container div button {
+    margin-left: 0.5rem;
+    flex-shrink: 0;
+}
+
+#stats {
+    padding: 0.5rem 0;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
 .skip-link {
-position: absolute;
-left: -999px;
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #ff6600;
+    color: #fff;
+    padding: 8px;
+    z-index: 100;
 }
+
 .skip-link:focus {
-left: 10px;
-background: yellow;
+    top: 0;
 }

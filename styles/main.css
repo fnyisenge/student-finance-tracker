@@ -1,0 +1,31 @@
+body {
+font-family: Arial;
+margin: 0;
+padding: 0;
+}
+header {
+background: black;
+color: white;
+padding: 10px;
+}
+nav button {
+margin: 5px;
+padding: 10px;
+cursor: pointer;
+}
+table {
+width: 100%;
+border-collapse: collapse;
+}
+td, th {
+border: 1px solid gray;
+padding: 8px;
+}
+.skip-link {
+position: absolute;
+left: -999px;
+}
+.skip-link:focus {
+left: 10px;
+background: yellow;
+}

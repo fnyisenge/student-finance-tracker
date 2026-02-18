@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Finance Tracker</title>
+<link rel="stylesheet" href="styles/main.css">
+<link rel="stylesheet" href="styles/responsive.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header>
+<h1>Student Finance Tracker</h1>
+<nav>
+<button onclick="showSection('dashboard')">Dashboard</button>
+<button onclick="showSection('records')">Records</button>
+<button onclick="showSection('add')">Add</button>
+<button onclick="showSection('settings')">Settings</button>
+<button onclick="showSection('about')">About</button>
+</nav>
+</header>
+<main id="main">
+<section id="dashboard">
+<h2>Dashboard</h2>
+<div id="stats"></div>
+</section>
+<section id="records" hidden>
+<h2>Records</h2>
+<input id="searchInput" placeholder="Search regex">
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th>Amount</th>
+<th>Category</th>
+<th>Date</th>
+</tr>
+</thead>
+<tbody id="recordsTable"></tbody>
+</table>
+</section>
+<section id="add" hidden>
+<h2>Add Transaction</h2>
+<form id="transactionForm">
+<label>Description</label>
+<input id="description" required>
+<label>Amount</label>
+<input id="amount" required>
+<label>Category</label>
+<input id="category" required>
+<label>Date</label>
+<input id="date" type="date" required>
+<button type="submit">Add</button>
+</form>
+</section>
+<section id="settings" hidden>
+<h2>Settings</h2>
+<label>Budget Cap</label>
+<input id="budgetCap">
+</section>
+<section id="about" hidden>
+<h2>About</h2>
+<p>Student Finance Tracker</p>
+<p>Author: Faustine Nyisenge</p>
+<p>Email: your-email@example.com</p>
+</section>
+</main>
+<div role="status" aria-live="polite" id="status"></div>
+<script type="module" src="scripts/app.js"></script>
+</body>
+</html>

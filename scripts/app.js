@@ -1,5 +1,5 @@
 import { load, save, KEY } from './storage.js';
-import { renderRecords, renderStats } from './ui.js';
+import { renderRecords } from './ui.js';
 import { validateRecord } from './validators.js';
 
 let records = load();
@@ -18,6 +18,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('record-form');
     const status = document.getElementById('status');
     const searchInput = document.getElementById('searchInput');
+    const statsContainer = document.getElementById('stats');
+    const budgetInput = document.getElementById('budgetCap');
+
+    // Load budget cap if stored
+    let budgetCap = parseFloat(localStorage.getItem('budgetCap') || 0);
+    if (budgetCap) budgetInput.value = budgetCap;
+
+    const renderStats = (records) => {
+        if (!records || records.length === 0) {
+            statsContainer.innerHTML = '<p>No records yet.</p>';
+            return;
+        }
+
+        const totalRecords = records.length;
+        const totalAmount = records.reduce((sum, r) => sum + parseFloat(r.amount), 0);
+        const avgSpending = (totalAmount / totalRecords).toFixed(2);
+
+        const categoryTotals = {};
+        records.forEach(r => {
+            categoryTotals[r.category] = (categoryTotals[r.category] || 0) + parseFloat(r.amount);
+        });
+        const topCategory = Object.keys(categoryTotals).reduce((a, b) =>
+            categoryTotals[a] > categoryTotals[b] ? a : b
+        );
+
+        const budgetUsedPercent = budgetCap > 0 ? ((totalAmount / budgetCap) * 100).toFixed(2) : 'N/A';
+
+        statsContainer.innerHTML = `
+            <p><strong>Total Records:</strong> ${totalRecords}</p>
+            <p><strong>Total Amount:</strong> ${totalAmount.toFixed(2)}</p>
+            <p><strong>Average Spending:</strong> ${avgSpending}</p>
+            <p><strong>Top Category:</strong> ${topCategory}</p>
+            <p><strong>Budget Used:</strong> ${budgetUsedPercent === 'N/A' ? 'No budget set' : budgetUsedPercent + '%'}</p>
+        `;
+    };
 
     const updateUI = () => {
         renderRecords(records, editRecord, deleteRecord);
@@ -87,5 +122,12 @@ document.addEventListener('DOMContentLoaded', () => {
         renderRecords(filtered, editRecord, deleteRecord);
     });
 
+    budgetInput.addEventListener('change', (e) => {
+        budgetCap = parseFloat(e.target.value) || 0;
+        localStorage.setItem('budgetCap', budgetCap);
+        renderStats(records);
+    });
+
     updateUI();
 });
+

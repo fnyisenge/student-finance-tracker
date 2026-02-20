@@ -56,15 +56,24 @@
 
         <section id="settings">
             <h2>Settings</h2>
-            <label>Budget Cap</label>
-            <input id="budgetCap">
+            <div class="setting-item">
+                <label for="budgetCap">Budget Cap:</label>
+                <input type="number" id="budgetCap" name="budgetCap" placeholder="Enter your budget limit">
+            </div>
+
+            <div class="setting-item">
+                <label for="notifications">Enable Notifications:</label>
+                <input type="checkbox" id="notifications" name="notifications">
+            </div>
+
+            <button id="saveSettings">Save Settings</button>
         </section>
 
         <section id="about" tabindex="-1">
             <h2>About Student Finance Tracker</h2>
             <p>
                 The Student Finance Tracker is a web application designed to help students
-                manage their daily expenses, track spending patterns, and monitor financial habits.
+                manage daily expenses, track spending patterns, and monitor financial habits.
             </p>
 
             <h3>Features</h3>
@@ -79,7 +88,7 @@
             <h3>Developer</h3>
             <p>
                 Name: Faustine Nyisenge<br>
-                Email: faustine@gmail.com<br>
+                Email: f.nyisenge@gmail.com
             </p>
         </section>
     </main>

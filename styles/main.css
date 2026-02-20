@@ -178,6 +178,7 @@ footer {
     top: 0;
 }
 
+/* Settings section alignment */
 #settings {
     background: #f3e6ff;
     padding: 1rem;
@@ -185,11 +186,23 @@ footer {
     box-shadow: 0 2px 5px rgba(106, 13, 173, 0.15);
 }
 
-#settings input {
+.setting-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.setting-item label {
+    min-width: 150px;
+    color: #2b1b3f;
+}
+
+#settings input[type="number"],
+#settings input[type="checkbox"] {
     border: 1px solid #cbb4f6;
     padding: 0.5rem;
     border-radius: 4px;
-    width: 100%;
-    margin-top: 0.25rem;
 }
+
 

@@ -1,65 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Finance Tracker</title>
-<link rel="stylesheet" href="styles/main.css">
-<link rel="stylesheet" href="styles/responsive.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Finance Tracker</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
 </head>
 <body>
-<a href="#main-content" class="skip-link">Skip to main content</a>
-<header>
-<h1>Student Finance Tracker</h1>
-<nav>
-<ul>
-<li><a href="#dashboard">Dashboard</a></li>
-<li><a href="#records">Records</a></li>
-<li><a href="#add-record">Add Record</a></li>
-<li><a href="#settings">Settings</a></li>
-<li><a href="#about">About</a></li>
-</ul>
-</nav>
-</header>
-<main id="main-content">
-<section id="dashboard">
-<h2>Dashboard</h2>
-<div id="stats"></div>
-</section>
-<section id="records">
-<h2>Records</h2>
-<input id="searchInput" placeholder="Search regex">
-<div id="records-container"></div>
-</section>
-<section id="add-record">
-<h2>Add / Edit Record</h2>
-<form id="record-form">
-<label for="description">Description:</label>
-<input type="text" id="description" name="description" required>
-<label for="amount">Amount:</label>
-<input type="number" id="amount" name="amount" step="0.01" required>
-<label for="category">Category:</label>
-<input type="text" id="category" name="category" required>
-<label for="date">Date:</label>
-<input type="date" id="date" name="date" required>
-<button type="submit">Save Record</button>
-</form>
-</section>
-<section id="settings">
-<h2>Settings</h2>
-<label>Budget Cap</label>
-<input id="budgetCap">
-</section>
-<section id="about">
-<h2>About</h2>
-<p>Student Finance Tracker</p>
-<p>Programmer: Faustine Nyisenge</p>
-<p>Email: f.nyisenge@gmail.com</p>
-</section>
-</main>
-<footer>
-<p>&copy; 2026 Student Finance Tracker</p>
-</footer>
-<script type="module" src="scripts/app.js"></script>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <h1>Student Finance Tracker</h1>
+        <nav>
+            <ul>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#records">Records</a></li>
+                <li><a href="#add-record">Add Record</a></li>
+                <li><a href="#settings">Settings</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section id="dashboard">
+            <h2>Dashboard</h2>
+            <div id="stats"></div>
+        </section>
+
+        <section id="records">
+            <h2>Records</h2>
+            <input id="searchInput" placeholder="Search regex">
+            <div id="records-container"></div>
+        </section>
+
+        <section id="add-record">
+            <h2>Add / Edit Record</h2>
+            <form id="record-form">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
+
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" step="0.01" required>
+
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" required>
+
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+
+                <button type="submit">Save Record</button>
+            </form>
+        </section>
+
+        <section id="settings">
+            <h2>Settings</h2>
+            <label>Budget Cap</label>
+            <input id="budgetCap">
+        </section>
+
+        <section id="about" tabindex="-1">
+            <h2>About Student Finance Tracker</h2>
+            <p>
+                The Student Finance Tracker is a web application designed to help students
+                manage their daily expenses, track spending patterns, and monitor financial habits.
+            </p>
+
+            <h3>Features</h3>
+            <ul>
+                <li>Add, edit, and delete transaction records</li>
+                <li>View records in an organized table</li>
+                <li>Automatic storage in your browser using localStorage</li>
+                <li>Dashboard summarizing total spending</li>
+                <li>Accessible and responsive design</li>
+            </ul>
+
+            <h3>Developer</h3>
+            <p>
+                Name: Faustine Nyisenge<br>
+                Email: faustine@gmail.com<br>
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Student Finance Tracker</p>
+    </footer>
+
+    <script type="module" src="scripts/app.js"></script>
 </body>
 </html>

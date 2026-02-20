@@ -1,10 +1,11 @@
 export function renderRecords(records, onEdit, onDelete) {
-    const container = document.getElementById('records');
+    const container = document.getElementById('records-container'); // <-- fixed
     if (!container) return;
     if (records.length === 0) {
         container.innerHTML = "<p>No records found.</p>";
         return;
     }
+
     const table = document.createElement('table');
     table.style.width = "100%";
     table.style.borderCollapse = "collapse";

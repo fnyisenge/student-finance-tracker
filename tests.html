@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Finance Tracker - Test Data</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <h1>Student Finance Tracker - Test Data</h1>
+        <nav>
+            <ul>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#records">Records</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section id="dashboard">
+            <h2>Dashboard</h2>
+            <div id="stats"></div>
+        </section>
+
+        <section id="records">
+            <h2>Records</h2>
+            <div id="records-container"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Student Finance Tracker</p>
+    </footer>
+
+    <script type="module">
+        import { renderRecords, updateStats } from './scripts/ui.js';
+
+        const SAMPLE_TRANSACTIONS = [
+            { id: "txn_1", description: "Lunch at cafeteria", amount: 12.50, category: "Food", date: "2025-09-25" },
+            { id: "txn_2", description: "Chemistry textbook", amount: 89.99, category: "Books", date: "2025-09-23" },
+            { id: "txn_3", description: "Bus pass", amount: 45.00, category: "Transport", date: "2025-09-20" },
+            { id: "txn_4", description: "Coffee with friends", amount: 8.75, category: "Entertainment", date: "2025-09-28" },
+            { id: "txn_5", description: "Groceries", amount: 55.20, category: "Food", date: "2025-09-22" },
+            { id: "txn_6", description: "Math workbook", amount: 34.99, category: "Books", date: "2025-09-21" },
+            { id: "txn_7", description: "Movie night", amount: 15.00, category: "Entertainment", date: "2025-09-24" },
+            { id: "txn_8", description: "Taxi fare", amount: 18.50, category: "Transport", date: "2025-09-26" },
+            { id: "txn_9", description: "Lunch with colleagues", amount: 20.00, category: "Food", date: "2025-09-27" },
+            { id: "txn_10", description: "Physics lab kit", amount: 72.00, category: "Books", date: "2025-09-23" }
+        ];
+
+        localStorage.setItem('finance:data', JSON.stringify(SAMPLE_TRANSACTIONS));
+        renderRecords(SAMPLE_TRANSACTIONS);
+        updateStats(SAMPLE_TRANSACTIONS);
+    </script>
+</body>
+</html>
